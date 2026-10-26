@@ -21,7 +21,6 @@ export default {
   permissions: {},
   info: { title: 'Package Lens', description: pkg.description },
   // Fill with your real submission URLs. Validation deliberately blocks publishing until then.
-  github: '',
-  demoVideo: '',
-  demovideo: ''
+  github: 'https://github.com/aadrash-dev/hyperdart_packageInfo.git',
+  demoVideo: 'https://youtu.be/R2kagacObMA'
 };
