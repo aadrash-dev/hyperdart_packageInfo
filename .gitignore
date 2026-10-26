@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.venv/
+.env*
+!.env.example
+tmp/
+.DS_Store
+test-results/

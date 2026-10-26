@@ -1,0 +1,22 @@
+{
+  "title": "Package Lens",
+  "description": "Live npm package metadata, comparisons, use-case discovery, and relevance-ranked alternatives with explanations.",
+  "componentScope": {
+    "supportedIntents": [
+      {"intent":"package-details", "description":"Inspect one npm package and its latest dist-tag.", "example":["npm express", "latest version of react", "npm request"]},
+      {"intent":"package-comparison", "description":"Compare two or three npm packages using factual metadata and download counts.", "example":["compare packages express, fastify", "compare express, fastify, koa"]},
+      {"intent":"package-alternatives", "description":"Find relevant alternatives using keywords and descriptions, then explain ranking.", "example":["npm alternatives to moment", "packages like lodash"]},
+      {"intent":"package-discovery", "description":"Find packages for a use case with optional TypeScript and ESM preferences.", "example":["best npm package for CSV parsing", "recommend a library for date formatting with TypeScript"]}
+    ]
+  },
+  "schema": {
+    "type":"object",
+    "properties": {
+      "type":{"type":"string", "enum":["list","query"]},
+      "filters":{"type":"object", "properties":{"packages":{"type":"array", "items":{"type":"string"}, "minItems":1,"maxItems":3}, "topic":{"type":"string"}, "intent":{"enum":["details","compare","alternatives","discover"]}}, "additionalProperties":false},
+      "features":{"type":"array", "items":{"enum":["version","released","downloads","license","node","types","moduleType","size","dependencies","deprecated"]}},
+      "entities":{"collections":["NPM_PACKAGES"]}
+    },
+    "required":["type","filters","features"]
+  }
+}
