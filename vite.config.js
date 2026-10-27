@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import hdBackend from '@hyperdart/backend';
 import config from './hyperdart.config.js';
+import sandboxSocialPlugin, { sandboxDependencies } from './scripts/sandbox-social-plugin.js';
 
 function dartFrame() {
   return {
@@ -19,7 +20,8 @@ function dartFrame() {
   };
 }
 export default defineConfig(({ command }) => ({
-  plugins: [react(), dartFrame(), cssInjectedByJsPlugin()],
+  plugins: [sandboxSocialPlugin(), react(), dartFrame(), cssInjectedByJsPlugin()],
+  optimizeDeps: { exclude: ['@hyperdart/sandbox'], include: ['@mui/material', '@hyperdart/frontend', ...sandboxDependencies()] },
   define: { 'process.env.NODE_ENV': JSON.stringify(command === 'build' ? 'production' : 'development') },
   server: { proxy: {
     '/nodeapi': { target: 'https://dev.hyperdart.com', changeOrigin: true },

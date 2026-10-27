@@ -1,5 +1,5 @@
 {
-  "name": "package-lens-hyperdart",
+  "name": "@nitkkr/packageinfoaadrash",
   "version": "1.0.0",
   "description": "Live npm package details, comparisons and transparent alternatives for HyperDart",
   "type": "module",

@@ -11,7 +11,11 @@ npm ci
 npm start
 ```
 
-Open http://127.0.0.1:5173. The start page is the official `HDSandbox`, also available at `/sandbox.html`. Enter every query in the **HyperDart company search bar at the top** and press Enter. The company services resolve the search and deliver `searchData` to the wrapped component. There is no component-owned query field, example-search navigation, automatic default search or in-component query-switching action. `searchData.json` starts empty; no package API request runs until the host supplies a query. Search processing requires available HyperDart services and any authentication required by the platform.
+Open the local URL printed by Vite (normally http://127.0.0.1:5173). The start page is the official `HDSandbox`, also available at `/sandbox.html`. Enter every query in the **HyperDart company search bar at the top** and press Enter. The company services resolve the search and deliver `searchData` to the wrapped component. There is no component-owned query field, example-search navigation, automatic default search or in-component query-switching action. `searchData.json` starts empty; the sandbox entry registers a component record with an empty query so the host does not mistake the initial state for missing component data. No package API request runs until the host supplies a query. Search processing requires available HyperDart services and any authentication required by the platform.
+
+The local sandbox's comment, like and share controls are functional, including their three-dot menu entries. Likes toggle between zero and one. Comments can be added and deleted. Both are saved per search in this browser, start without fabricated counts, and are not posted to HyperDart or shared with other users. If browser storage is disabled, changes remain in memory with a visible notice.
+
+Share copies a URL containing the current query in `?q=...`; opening it initializes the host's `searchData` and search bar to that query. The link contains no likes or comments. Native sharing is available when supported, and clipboard failures leave a selectable link. Localhost links work on the same computer; sharing across devices requires a hosted preview. These are local-preview features: a development-only Vite adapter replaces the pinned sandbox SDK's static controls without editing `node_modules`. The published package still uses the platform's own social controls. Updating `@hyperdart/sandbox` may require updating the adapter, which fails explicitly if the expected SDK code changes.
 
 ```sh
 npm test
@@ -39,7 +43,7 @@ Enter these forms in the company search bar. Host payloads can be arrays or obje
 
 ## Design and data decisions
 
-Package Lens uses a restrained green editorial style with a comparison table followed by deeper metadata cards. Light, dark, `lightsOut`, mainline and sidebar modes derive from `UIOptions`. Narrow comparisons scroll horizontally, and all chart values are also available in an accessible data table.
+Package Lens uses a compact developer-tool layout with system fonts, neutral panels, a comparison table, factual takeaways and download history before the metadata cards. The initial view lists supported queries without starting a search. Alternatives show their rank, shared keywords and weekly counts; deprecated packages have a badge and npm's message. Light, dark, `lightsOut`, mainline and sidebar modes derive from `UIOptions`. Narrow comparisons scroll horizontally, and all chart values are also available in an accessible data table.
 
 The application uses React 18, MUI 6, Vite, and the official HyperDart frontend, backend frame helper and sandbox packages. `src/frontend/index.jsx` keeps the required `withHD` wrapper. Vite creates the ES library at `dist/frontend/index.modern.js` and injects its CSS through JavaScript. The dev frame is served at `/package-lens-hyperdart`. `componentLoaded()` is sent once after a ready, waiting or error view is rendered. Search terms come exclusively from the `searchData` prop; local state controls only result filters and refreshing the current host query.
 
@@ -69,6 +73,8 @@ Charts use a shared zero baseline. Missing download history does not become zero
 - `src/lib/recommendations.js`: use-case extraction, relevance scoring, explanations and filters.
 - `src/lib/api.js`: npm adapters, caching, timeouts and concurrency.
 - `src/sandbox/main.jsx`: official HyperDart sandbox entry for both local start pages.
+- `src/sandbox/SocialActions.jsx`, `src/sandbox/navigation.js`: browser-local social controls and shared-search URLs.
+- `scripts/sandbox-social-plugin.js`: development adapter for the pinned sandbox's placeholder controls.
 - `hyperdart.config.js`, `resource.json`, `searchData.json`: integration metadata and examples.
 - `tests/`: logic and browser scenarios.
 - `PROCEDURE.md`: setup, implementation and demonstration steps.
